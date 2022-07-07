@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.6/jqBootstrapValidation.js"></script>
+    <!-- or use local jquery -->
+    <script src="/js/jqBootstrapValidation.js"></script>
+    <link rel="stylesheet" href="/static/css/main.css">
+
+    <title>EDIT USER</title>
+
+</head>
+
+<body>
+    <div class="form2">
+        <br>
+        <div class="container-fluid">
+            <div class="text-right">
+                <button type="button" class="btn btn-outline-secondary btn-sm">
+                    <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-1">⤶</a></h6>
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm">
+                    <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1">Logout</a></h6>
+                </button>
+            </div>
+        </div>  
+        <form action="/update/{{row.id}}" method="post" novalidate="novalidate">
+
+            <div class="h2">
+                <h2>Edit User</h2>
+            </div>
+
+            <div class="table">
+
+                <input type="hidden" name="id" id="id" value="{{row.id}}" required="required">
+                <br />
+                <div class="control-group">
+                    <label for="email" class="control-label">Email</label>
+                    <br />
+                    <div class="controls">
+                        <input type="email" id="email" name="email" value="{{row.email}}" required="required" disabled>
+                        <br />
+                        {{email}}
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="user_name">User_Name</label>
+                    <br>
+                    <div class="controls">
+                        <input type="text" id="user_name" name="user_name" data-validation-regex-regex="[A-Za-z]+"
+                            value="{{row.user_name}}" required="required"
+                            data-validation-regex-message="Add Your UserName" disabled>
+                        <br>
+                        {{user_name}}
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label for="password">Password</label>
+                    <br />
+                    <div class="controls">
+                        <input type="password" id="password" name="password"
+                            data-validation-regex-regex="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                            data-validation-regex-message="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                            required="required">
+                        <br />
+                        {{password}}
+                    </div>
+                </div>
+                {% if error %}
+                <div class="error-msg">{{ error }}</div>
+                {% endif %}
+
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+
+                {% for message in messages %}
+                {{ message }}
+
+                {% endfor %}
+
+                {% endif %}
+                {% endwith %}
+                
+                <input type="submit" value="edit">
+            </div>
+        </form>
+    </div>
+    <script>
+        $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,131 @@
+.bg {
+    background-image: url('/static/images/download.jpeg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 605px;
+}
+
+.h2 {
+    padding-top: 30px;
+    color:black;
+
+}
+
+p{
+    font-size: smaller;
+}
+
+input {
+    margin-bottom: 20px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    font-size: .9em;
+    color: #5F7161;
+    /* margin-left: 30px;
+    margin-right: 30px; */
+}
+
+label {
+    padding-top: 10px;
+    color: #5F7161;
+}
+
+.table {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 80px;
+    margin-bottom: 150px;
+    background-color:white;
+    opacity: .9;
+    height: fit-content;
+    width: fit-content;
+    border-radius: 3px solid black;
+    padding: 10px;
+    box-shadow: #576F72;
+    overflow: hidden;
+}
+
+.home {
+    background-image: url('/static/images/gradienta-7brhZmwXn08-unsplash.jpg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    height: 800px;
+}
+
+.h3 {
+    padding-top: 30px;
+    color: #066163;
+}
+
+.h4 {
+    margin-top: auto;
+    margin-bottom: auto;
+    color: #066163;
+}
+
+.a {
+    color: #413F42;
+}
+
+.a1{
+    color: white;
+}
+
+h2 {
+    padding-top: 30px;
+    color: #066163;
+    ;
+}
+
+th {
+    color: #576F72;
+}
+
+td {
+    color: #576F72;
+}
+
+
+.table1 {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 20px;
+    background-color: #ffffff;
+    opacity: .9;
+    height: fit-content;
+    width: fit-content;
+    border-radius: 3px solid black;
+    padding: 10px;
+}
+
+.home1 {
+    background-image: url('/static/images/milad-fakurian-c10tq-bB52Y-unsplash.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.table2 {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 100px;
+    margin-bottom: 100px;
+    background-color: #ffffff;
+    opacity: .9;
+
+    border-radius: 3px solid black;
+    padding-left: 20px;
+    padding-right: 20px;
+
+}
+
+img {
+    height: 165px;
+    width: 165px;
+    margin-left: auto;
+    margin-right: auto;
+}

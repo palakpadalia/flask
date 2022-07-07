@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+        crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqBootstrapValidation/1.3.6/jqBootstrapValidation.js"></script>
+    <!-- or use local jquery -->
+    <script src="/js/jqBootstrapValidation.js"></script>
+    <link rel="stylesheet" href="/static/css/user.css">
+    <title>User Login</title>
+</head>
+
+<body>
+    <div class="bg">
+        <form action="{{ url_for('user_login') }}" method="post" novalidate="novalidate">
+            <h2 class="text-center h2">User Log In</h2>
+            <div class="table">
+                <div class="container">
+                    <div class="row">
+                        <div class="col m-auto">
+                            <img src="/static/images/images__1_-removebg-preview.png">
+                        </div>
+                        <div class="col">
+                            <div class="control-group">
+                                <label for="user_name" class="control-label">Username</label>
+                                <br />
+                                <div class="controls">
+                                    <input type="text" id="user_name" name="user_name"
+                                        data-validation-regex-regex="[A-Za-z]+" required="required"
+                                        data-validation-regex-message="Add Your UserName">
+                                </div>
+                            </div>
+                            {{user_name}}
+
+                            <div class="control-group form-group">
+                                <label for="password" class="control-label">Password</label>
+                                <br />
+                                <div class="controls">
+                                    <input type="password" id="password" name="password"
+                                        data-validation-regex-regex="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                                        data-validation-regex-message="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                        required="required">
+                                </div>
+                            </div>
+                            {{password}}
+
+                            <div>
+                                <input type="submit" value="Sign In">
+                                <br>
+                                {% if error %}
+                                <div class="error-msg">{{ error }}</div>
+                                {% endif %}
+                                {% with messages = get_flashed_messages() %}
+                                {% if messages %}
+
+                                {% for message in messages %}
+                                {{ message }}
+                                {% endfor %}
+
+                                {% endif %}
+                                {% endwith %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </form>
+
+    </div></br>
+    </div>
+
+
+
+    </div>
+    <script>
+        $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
+    </script>
+</body>
+
+</html>
