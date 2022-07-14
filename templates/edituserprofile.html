@@ -34,7 +34,8 @@
                         <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-1">⤶</a></h6>
                     </button>
                     <button type="button" class="btn btn-outline-secondary btn-sm">
-                        <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1" onclick="reloadThePage()">Logout</a></h6>
+                        <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1"
+                                onclick="reloadThePage()">Logout</a></h6>
                     </button>
                 </div>
             </div>
@@ -45,163 +46,177 @@
 
 
             <div class="container text-center edituser">
-                <div class="row">
-                    <div class="col control-group">
 
-                        <label class="labels">First Name</label>
+                <div class="container mt-5 mb-5">
+                    <div class="p-3 py-5">
+                        <div class="row">
+                            <div class="col-md-12 col-lg-3 border-right">
+                                <div class="d-flex flex-column align-items-center text-center p-3 py-5">
 
-                        <div class="controls">
+                                    <div class="controls">
+                                        <img src="{{ url_for('display_image', filename=filename) }}">
+                                    </div>
+                                    <br>
+                                    <label class="labels"><b>Birth Certificate</b></label>
 
-                            <input type="text" id="first_name" name="first_name" value="{{row.first_name}}"
-                                data-validation-regex-regex="[A-Za-z]+"
-                                data-validation-regex-message="Add only Alphabets" required="required">
+                                    <div class="controls">
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                                            <a href="{{ url_for('display_pdf', dobcer=dobcer) }}">Open Your Birth
+                                                Certificate</a>
+                                        </button>
+                                    </div>
 
-                            <div>{{first_name}}</div>
+                                </div>
+                            </div>
+                            <div class="col-md-5 border-right">
+
+
+                                <div class="row mt-2">
+                                    <div class="col-md-12 col-sm-12 col-lg-12">
+                                        <div class="control-group">
+                                            <label class="labels">First Name</label>
+
+                                            <div class="controls col-lg-3 col-lg-12">
+                                                <input type="text" id="first_name" name="first_name"
+                                                    value="{{row.first_name}}" data-validation-regex-regex="[A-Za-z]+"
+                                                    data-validation-regex-message="Add only Alphabets"
+                                                    required="required">
+                                                <div>{{first_name}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-lg-12 control-group">
+
+                                    <label for="user_name">Last Name</label>
+
+                                    <div class="controls">
+
+                                        <input type="text" id="last_name" name="last_name" value="{{row.last_name}}"
+                                            data-validation-regex-regex="[A-Za-z]+" required="required"
+                                            data-validation-regex-message="Add Your Last Name">
+                                    </div>
+
+                                    <div>{{last_name}}</div>
+
+                                </div>
+
+                                <div class="col control-group">
+
+                                    <label for="date_of_birth">Date Of Birth</label>
+
+                                    <div class="controls">
+                                        <input type="date" id="date_of_birth" max="2004-01-01" name="date_of_birth"
+                                            value="{{row.date_of_birth}}" required="required">
+
+                                        <div>{{date_of_birth}}</div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col control-group">
+
+                                    <label for="mobile_number">Mobile Number</label>
+
+                                    <div class="controls">
+                                        <input type="text" id="mobile_number" name="mobile_number"
+                                            value="{{row.mobile_number}}" data-validation-regex-regex="[789][0-9]{9}"
+                                            required="required" data-validation-regex-message="Add Your Mobile Number">
+
+                                        <div>{{mobile_number}}</div>
+
+                                    </div>
+                                </div>
+
+
+
+                                <div class="col control-group">
+
+                                    <label for="gender">Gender</label>
+
+                                    <div class="controls p-2">
+                                        Male:<input type="radio" id="gender" name="gender" value="Male" class="radio">
+                                        Female:<input type="radio" id="gender" name="gender" value="Female"
+                                            class="radio">
+                                        <div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col control-group">
+                                <label class="labels">Address</label>
+                                <div class="controls">
+
+                                    <input type="text" id="address" name="address" value="{{row.address}}"
+                                        required="required">
+                                    <div> {{address}}</div>
+                                </div>
+
+
+
+
+                                <label for="city">City</label>
+                                <div class="controls">
+                                    <input type="text" id="city" name="city" value="{{row.city}}"
+                                        data-validation-regex-regex="[A-Za-z]+" required="required"
+                                        data-validation-regex-message="Add Your City">
+                                    <div></div>
+                                </div>
+
+
+
+                                <label for="state">State</label>
+                                <div class="controls">
+                                    <select name="state">State
+                                        <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Bihar">Bihar</option>
+                                        <option value="Chhattisgarh">Chhattisgarh</option>
+                                        <option value="Goa">Goa</option>
+                                        <option value="Gujarat">Gujarat</option>
+                                        <option value="Haryana">Haryana</option>
+                                        <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                        <option value="Jharkhand">Jharkhand</option>
+                                        <option value="Karnataka">Karnataka</option>
+                                        <option value="Kerala">Kerala</option>
+                                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                        <option value="Maharashtra">Maharashtra</option>
+                                        <option value="Manipur">Manipur</option>
+                                        <option value="Meghalaya">Meghalaya</option>
+                                        <option value="Mizoram">Mizoram</option>
+                                        <option value="Nagaland">Nagaland</option>
+                                        <option value="Odisha (Orissa)">Odisha (Orissa)</option>
+                                        <option value="Punjab">Punjab</option>
+                                        <option value="Rajasthan">Rajasthan</option>
+                                        <option value="Sikkim">Sikkim</option>
+                                        <option value="Tamil Nadu">Tamil Nadu</option>
+                                        <option value="Telangana">Telangana</option>
+                                        <option value="Tripura">Tripura</option>
+                                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                        <option value="Uttarakhand">Uttarakhand</option>
+
+                                    </select>
+                                    <div></div>
+                                </div>
+
+
+                                <label for="zipcode">Zipcode</label>
+                                <div class="controls">
+                                    <input type="text" id="zipcode" name="zipcode" value="{{row.zipcode}}"
+                                        data-validation-regex-regex="[0-9]" required="required"
+                                        data-validation-regex-message="Add Your Zipcode">
+                                    <div></div>
+
+                                </div>
+                            </div>
                         </div>
+                        <input type="submit" value="Update">
                     </div>
-
-                    <div class="col control-group">
-
-                        <label for="user_name">Last Name</label>
-
-                        <div class="controls">
-
-                            <input type="text" id="last_name" name="last_name" value="{{row.last_name}}"
-                                data-validation-regex-regex="[A-Za-z]+" required="required"
-                                data-validation-regex-message="Add Your Last Name">
-                        </div>
-
-                        <div>{{last_name}}</div>
-
-                    </div>
-
-                    <div class="col control-group">
-
-                        <label for="date_of_birth">Date Of Birth</label>
-
-                        <div class="controls">
-                            <input type="date" id="date_of_birth" max="2004-01-01" name="date_of_birth"
-                                value="{{row.date_of_birth}}" required="required">
-
-                            <div>{{date_of_birth}}</div>
-
-                        </div>
-                    </div>
-
                 </div>
-
-
-
-                <div class="row">
-
-                    <div class="col control-group">
-
-                        <label for="mobile_number">Mobile Number</label>
-
-                        <div class="controls">
-                            <input type="text" id="mobile_number" name="mobile_number" value="{{row.mobile_number}}"
-                                data-validation-regex-regex="[789][0-9]{9}" required="required"
-                                data-validation-regex-message="Add Your Mobile Number">
-
-                            <div>{{mobile_number}}</div>
-
-                        </div>
-                    </div>
-
-
-
-                    <div class="col control-group">
-
-                        <label for="gender">Gender</label>
-
-                        <div class="controls p-2">
-                            Male:<input type="radio" id="gender" name="gender" value="Male" class="radio">
-                            Female:<input type="radio" id="gender" name="gender" value="Female" class="radio">
-                            <div></div>
-                        </div>
-                    </div>
-
-                    <div class="col control-group">
-                        <label class="labels">Address</label>
-                        <div class="controls">
-
-                            <input type="text" id="address" name="address" value="{{row.address}}" required="required">
-                            <div> {{address}}</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col control-group">
-                        <label for="city">City</label>
-                        <div class="controls">
-                            <input type="text" id="city" name="city" value="{{row.city}}"
-                                data-validation-regex-regex="[A-Za-z]+" required="required"
-                                data-validation-regex-message="Add Your City">
-                            <div></div>
-                        </div>
-                    </div>
-
-                    <div class="col control-group">
-                        <label for="state">State</label>
-                        <div class="controls">
-                            <select name="state">State
-                                <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
-                                <option value="Assam">Assam</option>
-                                <option value="Bihar">Bihar</option>
-                                <option value="Chhattisgarh">Chhattisgarh</option>
-                                <option value="Goa">Goa</option>
-                                <option value="Gujarat">Gujarat</option>
-                                <option value="Haryana">Haryana</option>
-                                <option value="Himachal Pradesh">Himachal Pradesh</option>
-                                <option value="Jharkhand">Jharkhand</option>
-                                <option value="Karnataka">Karnataka</option>
-                                <option value="Kerala">Kerala</option>
-                                <option value="Madhya Pradesh">Madhya Pradesh</option>
-                                <option value="Maharashtra">Maharashtra</option>
-                                <option value="Manipur">Manipur</option>
-                                <option value="Meghalaya">Meghalaya</option>
-                                <option value="Mizoram">Mizoram</option>
-                                <option value="Nagaland">Nagaland</option>
-                                <option value="Odisha (Orissa)">Odisha (Orissa)</option>
-                                <option value="Punjab">Punjab</option>
-                                <option value="Rajasthan">Rajasthan</option>
-                                <option value="Sikkim">Sikkim</option>
-                                <option value="Tamil Nadu">Tamil Nadu</option>
-                                <option value="Telangana">Telangana</option>
-                                <option value="Tripura">Tripura</option>
-                                <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                <option value="Uttarakhand">Uttarakhand</option>
-
-                            </select>
-                            <div></div>
-                        </div>
-                    </div>
-
-                    <div class="col control-group">
-                        <label for="zipcode">Zipcode</label>
-                        <div class="controls">
-                            <input type="text" id="zipcode" name="zipcode" value="{{row.zipcode}}"
-                                data-validation-regex-regex="[0-9]" required="required"
-                                data-validation-regex-message="Add Your Zipcode">
-                            <div></div>
-
-                        </div>
-                    </div>
-                </div>
-
-
-
-
-
-
-
-
-
-              
-                <input type="submit" value="Update">
-
             </div>
         </form>
     </div>

@@ -24,6 +24,24 @@
 <body>
     <div class="bg">
         <div class="container">
+            <div class="col-lg-12 text-center">
+                <b>
+                    {% if error %}
+                    <div class="error-msg">{{ error }}</div>
+                    {% endif %}
+
+                    {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+
+                    {% for message in messages %}
+                    {{ message }}
+
+                    {% endfor %}
+
+                    {% endif %}
+                    {% endwith %}
+                </b>
+            </div>
             <form action="{{ url_for('user_login') }}" method="post" novalidate="novalidate">
                 <h2 class="text-center h2">User Log In</h2>
                 <div class="table">
@@ -58,19 +76,7 @@
 
                                 <div>
                                     <input type="submit" value="Sign In">
-                                    <br>
-                                    {% if error %}
-                                    <div class="error-msg">{{ error }}</div>
-                                    {% endif %}
-                                    {% with messages = get_flashed_messages() %}
-                                    {% if messages %}
 
-                                    {% for message in messages %}
-                                    {{ message }}
-                                    {% endfor %}
-
-                                    {% endif %}
-                                    {% endwith %}
                                 </div>
                             </div>
                         </div>

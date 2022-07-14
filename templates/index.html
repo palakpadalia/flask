@@ -46,14 +46,15 @@
         {% endwith %}
         {{msg}}
     </h4>
-    <div class="form3">
+    <div class="form3 p-4">
         <div class="container-fluid">
             <div class="text-right">
                 <button type="button" class="btn btn-outline-secondary btn-sm">
                     <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-1">⤶</a></h6>
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                    <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1" onclick="reloadThePage()">Logout</a></h6>
+                    <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1"
+                            onclick="reloadThePage()">Logout</a></h6>
                 </button>
             </div>
         </div>
@@ -61,7 +62,7 @@
             <h2>Users</h2>
         </div>
         <div class="container">
-            <table class="table table-striped text-center" id="showtable">
+            <table class="table table-striped text-center mb-5" id="showtable">
                 <thead>
                     <tr>
                         <th scope="col">Id</th>
@@ -73,7 +74,7 @@
                     </tr>
                 </thead>
 
-                
+
                 <tbody>
                     {% for row in users %}
                     <tr>
@@ -87,17 +88,18 @@
 
                     {% endfor %}
                 </tbody>
-                    <tr>
-                        <td colspan="6"><a href="{{ url_for('insert') }}" class="a-1">Add users from here..</a>
-                            </h3>
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="6"><a href="{{ url_for('insert') }}" class="a-1">Add users from here..</a>
+                        </h3>
+                    </td>
+                </tr>
                 </tbody>
         </div>
     </div>
     </table>
     </div>
     </div>
+
 
     <script>
 
@@ -110,7 +112,7 @@
             }
 
         }
-        
+
         function reloadThePage() {
             window.location.reload(true);
         }
@@ -118,6 +120,10 @@
 
     </script>
 
+
 </body>
+
+
+
 
 </html>
