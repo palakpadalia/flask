@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <h5><a href="{{url_for('logout')}}" class="a-1">Logout</a></h5>
+                        <h5><a href="{{url_for('logout')}}" onclick="reloadThePage()" class="a-1">Logout</a></h5>
                     </div>
                     <br>
                     <br>
@@ -57,7 +57,11 @@
 
 
     </div>
-    </div>
+    <script>
+        function reloadThePage() {
+            window.location.reload();
+        }
+    </script>
 </body>
 
 </html>

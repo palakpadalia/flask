@@ -14,72 +14,82 @@
         crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/static/css/main.css">
 
-
-
     <title>SHOW ADMINS</title>
 
 </head>
 
 <body>
-
     <div class="form3">
         <br>
+
         <div class="container-fluid">
             <div class="text-right">
-
                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                    <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1">Logout</a></h6>
+                    <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-1">⤶</a></h6>
+                </button>
+                <button type="button" class="btn btn-outline-secondary btn-sm">
+                    <h6 class="text-center"><a href="{{url_for('logout')}}" onclick="reloadThePage()"
+                            class="a-1">Logout</a></h6>
                 </button>
             </div>
         </div>
-        <h4 class="text-center h4">
-           
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
 
-            {% for message in messages %}
-            {{ message }}
-            {% endfor %}
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
 
-            {% endif %}
-            {% endwith %}
-        </h4>
-
+        {% endif %}
+        {% endwith %}
         <div class="h2">
             <h2>Admins</h2>
         </div>
-        <table class="table">
-            <div class="row">
-                <div class="col-lg-6 col-sm-12 col-md-12 align-content-start">
+        <div class="container">
+            <table class="table table-striped text-center">
+                <thead>
                     <tr>
-                        <th>Id</th>
-                        <th>Email</th>
-                        <th>Password</th>
-                        <th>Edit</th>
-                        <th>Delete</th>
+                        <th scope="col">Id</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Password</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
                     </tr>
-                </div>
-            </div>
+                </thead>
 
-            {% for row in users %}
-            <div class="row">
-                <div class="col-lg-6 col-sm-12 col-md-12 align-content-start">
-                    <tr>
-                        <td>{{row.id}}</td>
-                        <td>{{row.email}}</td>
-                        <td>{{row.password}}</td>
-                        <td><a href="/editadmin/{{row.id}}" class="a-1">Edit</a></td>
-                        <td><a href="/admindelete/{{row.id}}" class="a-1">Delete</a></td>
-                    </tr>
-                </div>
-            </div>
-            {% endfor %}
-            <tr>
-                <td colspan="5"> <a href="{{ url_for('admin_insert') }}" class="a-1">Add admin from here..</a>
-                </td>
-            </tr>
-        </table>
+                {% for row in users %}
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
 
+                        <tbody>
+                            <tr>
+                                <td>{{row.id}}</td>
+
+                                <td>{{row.email}}</td>
+                                <td>{{row.password}}</td>
+                                <td><a href="/editadmin/{{row.id}}" class="a-1">Edit</a></td>
+                                <td><a href="/admindelete/{{row.id}}" class="a-1">Delete</a></td>
+                            </tr>
+                            {% endfor %}
+                            <tr>
+                                <td colspan="5"> <a href="{{ url_for('admin_insert') }}" class="a-1">Add admin from
+                                        here..</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </div>
+                </div>
+            </table>
+
+        </div>
+
+        </h4>
+
+        <script>
+            function reloadThePage() {
+                window.location.reload(true);
+            }
+        </script>
 </body>
 
 </html>

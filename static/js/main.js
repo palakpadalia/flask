@@ -58,3 +58,9 @@ myInput.onkeyup = function () {
         length.classList.add("invalid");
     }
 }
+
+$(document).ready(function () {
+    $('#showtable').DataTable({
+        pagingType: 'full_numbers',
+    });
+});

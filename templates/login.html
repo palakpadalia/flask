@@ -29,28 +29,28 @@
                 <h2>Admin Login</h2>
             </div>
 
-            <div class="table">
+            <div class="tablemain">
                 <div class="control-group">
                     <label for="email" class="control-label">Email</label>
-                  
+
                     <div class="controls">
                         <input type="email" id="email" name="email" required="required">
-                       
+
                     </div>
                 </div>
                 {{email}}
 
                 <div class="control-group form-group">
                     <label for="password" class="control-label">Password</label>
-                   
+
                     <div class="controls">
                         <input type="password" id="password" name="password" required="required"
                             data-validation-regex-regex="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-                            data-validation-regex-message="Must contain at least one number <br> and one uppercase and lowercase letter,  
-                            <br> and at least 8 or more characters">
+                            data-validation-regex-message="<p>Must contain at least one number <br> and one uppercase and lowercase letter,  
+                            <br> and at least 8 or more characters</p>">
                     </div>
                 </div>
-               
+
                 <div>{{password}}</div>
                 <input type="submit" value="Sign In">
                 <br>
@@ -79,7 +79,12 @@
     <div></div>
     <script>
         $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
+
+        function reloadThePage() {
+            window.location.reload();
+        }
+
     </script>
 </body>
 
-</html>
+</html> 

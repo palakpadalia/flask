@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <div class="form2">
+    <div class="form">
         <br>
         <div class="container-fluid">
             <div class="text-right">
@@ -32,7 +32,7 @@
                     <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-1">⤶</a></h6>
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                    <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1">Logout</a></h6>
+                    <h6 class="text-center"><a href="{{url_for('logout')}}" onclick="reloadThePage()" class="a-1">Logout</a></h6>
                 </button>
             </div>
         </div>  
@@ -40,7 +40,7 @@
             <div class="h2">
                 <h2>Add User</h2>
             </div>
-            <div class="table">
+            <div class="tablemain">
                 <div class="control-group">
                     <label for="email" class="control-label">Email</label>
                     <br />
@@ -68,7 +68,7 @@
                     <div class="controls">
                         <input type="password" id="password" name="password"
                             data-validation-regex-regex="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-                            data-validation-regex-message="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                            data-validation-regex-message="<p>Must contain at least one number and one uppercase <br> and lowercase letter, and at least 8 or more characters</p>"
                             required="required">
 
                     </div>
@@ -88,6 +88,12 @@
     </div>
     <script>
         $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
+
+       
+        function reloadThePage() {
+            window.location.reload();
+        }
+   
     </script>
 </body>
 

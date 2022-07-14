@@ -23,23 +23,24 @@
 
 <body>
     <div class="home">
-        <form action="/showprofile" method="post">
+        <form action="/showprofile" method="post" enctype="multipart/form-data">
             <br>
             <div class="container-fluid">
                 <div class="text-right">
                     <button type="button" class="btn btn-outline-secondary btn-sm">
-                        <h6><a href="{{url_for('userlogout')}}">Logout</a></h6>
+                        <h6><a href="{{url_for('userlogout')}}" onclick="reloadThePage()">Logout</a></h6>
                     </button>
                 </div>
                 <div class="container rounded bg-white mt-5 mb-5">
                     <div class="row">
                         <div class="col-md-3 border-right">
-                            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img
-                                    class="rounded-circle mt-5" 
-                                    src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
-                                    <span class="font-weight-bold"><b>UserName : </b>{{user_name}}</span>
-                                    <br>
-                                    <span class="font-weight-bold"><b>Email : </b>{{email}}</span><span></span>
+                            <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                                <img class="rounded-circle mt-5"
+                                    src="{{ url_for('display_image', filename=filename) }}">
+                                <br>
+                                <span class="font-weight-bold"><b>UserName : </b>{{user_name}}</span>
+                                <br>
+                                <span class="font-weight-bold"><b>Email : </b>{{email}}</span><span></span>
                             </div>
                         </div>
                         <div class="col-md-5 border-right">
@@ -57,9 +58,20 @@
                                 </div>
 
                                 <div class="row mt-3">
-                                    <div class="col-md-12"><label class="labels">Date Of Birth</label><input type="text"
+                                    <div class="col-md-6"><label class="labels">Date Of Birth</label><input type="text"
                                             class="form-control" value="{{row.date_of_birth}}" disabled></div>
 
+                                    <div class="col-md-6"><label class="labels">Birth Certificate</label>
+                                        <br>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                                            <a href="{{ url_for('display_pdf', dobcer=dobcer) }}">Open Your Birth Certificate</a>
+                                        </button>
+                                    </div>
+                                    </input>
+
+                                </div>
+
+                                <div class="row mt-3">
                                     <div class="col-md-12"><label class="labels">Mobile Number</label><input type="text"
                                             class="form-control" value="{{row.mobile_number}}" disabled></div>
 
@@ -67,26 +79,25 @@
                                             class="form-control" value="{{row.gender}}" disabled></div>
                                 </div>
 
-                                <div class="mt-5 text-center text-light"><button class="btn btn btn-outline-dark profile-button"
-                                        type="button"> <a href="/editprofile" >Edit Profile</a></button></div>
+
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="p-3 py-5">
+                            <div class="py-5 p-3">
 
-                                <div class="col-md-12"><label class="labels">Address</label><input type="text"
+                                <div class="col-md-10 col-sm-12"><label class="labels">Address</label><input type="text"
                                         class="form-control" value="{{row.address}}" disabled></div>
 
-                                <div class="col-md-12"><label class="labels">City</label><input type="text"
+                                <div class="col-md-10 col-sm-12"><label class="labels">City</label><input type="text"
                                         class="form-control" value="{{row.city}}" disabled></div>
 
-                                <div class="col-md-12"><label class="labels">State</label><input type="text"
+                                <div class="col-md-10"><label class="labels">State</label><input type="text"
                                         class="form-control" disabled value="{{row.state}}"></div>
 
-                                <div class="col-md-12"><label class="labels">Zipcode</label><input type="text"
+                                <div class="col-md-10"><label class="labels">Zipcode</label><input type="text"
                                         class="form-control" value="{{row.zipcode}}" disabled></div>
 
-                                <div class="col-md-12"><label class="labels">Profile Update Date</label><input
+                                <div class="col-md-10"><label class="labels">Profile Update Date</label><input
                                         type="text" class="form-control" disabled value="{{row.profile_updated_dt}}">
                                 </div>
 
@@ -94,7 +105,13 @@
                         </div>
                     </div>
                     <div class="row ml-auto mr-auto">
-                        <div class="col-lg-12 text-center"></div>
+                        <div class="col-lg-12 text-center">
+                            <div class="mb-2 text-center text-light">
+                                <button class="btn btn btn-outline-dark profile-button" type="button"> <a
+                                        href="/editprofile">Edit Profile</a>
+                                </button>
+                            </div>
+                        </div>
                         <div class="col-lg-12 text-center">
                             {% if error %}
                             <div class="error-msg">{{ error }}</div>
@@ -110,12 +127,19 @@
 
                             {% endif %}
                             {% endwith %}
+
                         </div>
+                        <div class="col-lg-12 text-center"></div>
                     </div>
                 </div>
             </div>
     </div>
     </div>
+    <script>
+        function reloadThePage() {
+            window.location.reload(true);
+        }
+    </script>
 </body>
 
 </html>

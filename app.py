@@ -1,16 +1,24 @@
 import email
+from fileinput import filename
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_mysqldb import MySQL
 import re
 from flask_mail import Mail, Message
 from datetime import date, timedelta
+from flask_paginate import Pagination, get_page_parameter
+import os
+
+from werkzeug.utils import secure_filename
+import urllib.request
+
+from platformdirs import user_runtime_path
 
 app = Flask(__name__)
 app.secret_key = 'myapp'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'sanskar'
+app.config['MYSQL_PASSWORD'] = 'sanskar1906'
 app.config['MYSQL_DB'] = 'flask'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
@@ -20,6 +28,10 @@ app.config['MAIL_USERNAME'] = 'palakpadalia15@gmail.com'
 app.config['MAIL_PASSWORD'] = 'knymskrsuqdnnsqp'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
+
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
+
 app.permanent_session_lifetime = timedelta(minutes=1000)
 
 mysql = MySQL(app)
@@ -185,9 +197,10 @@ def updateadmin(id):
 
 @app.route('/logout')
 def logout():
-    session.pop('loggedin', None)
-    session.pop('email', None)
-    session.pop('password', None)
+    session.clear()
+    # session.pop('loggedin', None)
+    # session.pop('email', None)
+    # session.pop('password', None)
     flash('You were logged out.')
     return redirect(url_for('login'))
 
@@ -198,10 +211,12 @@ def logout():
 @app.route('/showusers', methods=['GET', 'POST'])
 def showusers():
     if 'loggedin' in session:
+        
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT * FROM users")  # Execute the SQL
         list_users = cursor.fetchall()
-        return render_template('index.html', users=list_users)
+
+        return render_template('index.html', users=list_users,)
 
     else:
         return redirect('/login')
@@ -273,7 +288,7 @@ def admindelete(id):
         mysql.connection.commit()
         cursor.execute("SELECT * FROM admin")  # Execute the SQL
         list_users = cursor.fetchall()
-        return render_template('index.html', users=list_users)
+        return render_template('show_admin.html', users=list_users)
     else:
         return redirect('/login')
 
@@ -283,14 +298,36 @@ def admindelete(id):
 
 @app.route('/delete/<string:id>', methods=['GET', 'POST'])
 def delete(id):
+
     if 'loggedin' in session:
+
         flash("Record Has Been Deleted Successfully")
+        cursor = mysql.connection.cursor()
+        cursor.execute('SELECT * FROM users WHERE id= %s', [id, ])
+        data = cursor.fetchall()
+
+        print(data[0])
+
+        # email = request.form['email']
+
+        # msg = Message(
+        #     'Hello ! You account is no longer available on our site !',
+        #     sender='palakpadalia15@gmail.com',
+        #     recipients=[email]
+        # )
+
+        # msg.body = "Thank You."
+        # # + user_name + '\n' "Password:-" + Password + '\n'
+        # mail.send(msg)
+
         cursor = mysql.connection.cursor()
         cursor.execute("DELETE FROM users WHERE id=%s", (id,))
         mysql.connection.commit()
+
         cursor.execute("SELECT * FROM users")  # Execute the SQL
         list_users = cursor.fetchall()
         return render_template('index.html', users=list_users)
+
     else:
         return redirect('/login')
 
@@ -301,7 +338,6 @@ def delete(id):
 @app.route('/edit/<id>')
 def edit(id):
     if 'loggedin' in session:
-
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT * FROM users WHERE id= %s', [id])
         data = cursor.fetchall()
@@ -313,11 +349,12 @@ def edit(id):
 
 @app.route('/update/<id>', methods=['GET', 'POST'])
 def update(id):
+
     if 'loggedin' in session:
 
         password = request.form['password']
         cursor = mysql.connection.cursor()
-        cursor.execute('SELECT * FROM users WHERE id= %s', [id])
+        cursor.execute('SELECT * FROM users WHERE id= %s', [id, ])
         data = cursor.fetchall()
         print(data[0])
 
@@ -331,20 +368,24 @@ def update(id):
 
         else:
             cursor = mysql.connection.cursor()
+
             cursor.execute('UPDATE users SET password=md5(%s) WHERE id = %s',
                            (password, id))
             cursor.connection.commit()
-            # msg = Message(
-            #         'Hello ! This is your username and password. You can login by this username and password.',
-            #         sender='palakpadalia15@gmail.com',
-            #         recipients=[email]
-            #     )
-            # msg.body =  "New Password:-" + password
-            #     # + user_name + '\n' "Password:-" + Password + '\n'
-            # mail.send(msg)
-            cursor.execute("SELECT * FROM users")  # Execute the SQL
+
+            email = request.form['email']
+            msg = Message(
+                'Hello ! This is your new password. Now you can login by this passowrd.',
+                sender='palakpadalia15@gmail.com',
+                recipients=[email]
+            )
+            msg.body = "New Password:-" + password
+            # + user_name + '\n' "Password:-" + Password + '\n'
+            mail.send(msg)
+
+            cursor.execute("SELECT * FROM users")
             list_users = cursor.fetchall()
-            flash('The record is successfully updated !')
+            flash('The password is successfully updated !')
             return render_template('index.html', users=list_users)
     else:
         return redirect('/login')
@@ -382,9 +423,9 @@ def user_login():
                 session['email'] = user['email']
                 session['user_name'] = user['user_name']
                 flash('You are logged in successfully !')
-                return render_template('userhome.html', user_name=user_name)
+                return render_template('userhome.html', user_name=user_name,)
             else:
-                flash('Incorrect username or password !')
+                flash('Incorrect username or password!')
                 return render_template('user_login.html')
 
     return render_template('user_login.html')
@@ -398,6 +439,8 @@ def userlogout():
     session.pop('userloggedin', None)
     session.pop('user_name', None)
     session.pop('password', None)
+    session.pop('email', None)
+
     return redirect(url_for('user_login'))
 
 
@@ -405,7 +448,7 @@ def userlogout():
 
 @app.route('/checkprofile', methods=['GET', 'POST'])
 def checkprofile():
- if 'userloggedin' in session:
+    if 'userloggedin' in session:
         user_id = session['id']
         user_name = session['user_name']
         email = session['email']
@@ -415,12 +458,11 @@ def checkprofile():
             data = cursor.fetchall()
             print(data[0])
             cursor.close()
-            msg="You have already created your profile ! You can only edit or show your profile ."
-            return render_template('userhome.html', row=data[0], user_name=user_name, email=email,msg=msg)
-        
+            msg = "You have already created your profile ! You can only edit or show your profile ."
+            return render_template('userhome.html', row=data[0], user_name=user_name, email=email, msg=msg)
+
         else:
             return render_template('profile.html', user_name=user_name, email=email)
-
 
 
 @app.route('/createprofile', methods=['GET', 'POST'])
@@ -429,70 +471,100 @@ def createprofile():
         user_id = session['id']
         user_name = session['user_name']
         email = session['email']
+
         if request.method == "POST":
             user_id = session['id']
             profile = request.form
             first_name = profile['first_name']
             last_name = profile['last_name']
             date_of_birth = profile['date_of_birth']
+            dobc=request.files['dobc']
             mobile_number = profile['mobile_number']
             gender = profile['gender']
             address = profile['address']
             city = profile['city']
             state = profile['state']
             zipcode = profile['zipcode']
+            file = request.files['file']
 
-            if not first_name or not last_name or not date_of_birth or not mobile_number or not gender or not address or not city or not state or not zipcode:
-                error = 'Please Fill the details'
-                return render_template('profile.html', error=error)
+            UPLOAD_FOLDER = 'static/profilepic/'
+            app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-            elif not re.match('[A-Za-z]+', first_name):
-                first_name = "Please enter first name"
-                return render_template('profile.html', first_name=first_name)
+            PDF_FOLDER = 'static/birthcertificate/'
+            app.config['PDF_FOLDER'] = PDF_FOLDER
 
-            elif not re.match('[A-Za-z]+', last_name):
-                last_name = "Please enter first name"
-                return render_template('profile.html', last_name=last_name)
+            
+            # if not first_name or not last_name or not date_of_birth or not mobile_number or not gender or not address or not city or not state or not zipcode or not file:
+            #     error = 'Please Fill the details'
+            #     return render_template('profile.html', error=error)
 
-            elif not re.match('[0-9]{10}', mobile_number):
-                mobile_number = "Please enter mobile number in the digits"
-                return render_template('profile.html', mobile_number=mobile_number)
+            # elif not re.match('[A-Za-z]+', first_name):
+            #     first_name = "Please enter first name"
+            #     return render_template('profile.html', first_name=first_name)
 
-            elif not re.match('[A-Za-z]+', gender):
-                gender = "Please enter your gender"
-                return render_template('profile.html', gender=gender)
+            # elif not re.match('[A-Za-z]+', last_name):
+            #     last_name = "Please enter first name"
+            #     return render_template('profile.html', last_name=last_name)
 
-            elif not re.match('[a-z]', address):
-                address = "Please enter your address"
-                return render_template('profile.html', address=address)
+            # elif not re.match('[0-9]{10}', mobile_number):
+            #     mobile_number = "Please enter mobile number in the digits"
+            #     return render_template('profile.html', mobile_number=mobile_number)
 
-            elif not re.match('[A-Za-z]+', city):
-                city = "Please enter your city"
-                return render_template('profile.html', city=city)
+            # elif not re.match('[A-Za-z]+', gender):
+            #     gender = "Please enter your gender"
+            #     return render_template('profile.html', gender=gender)
 
-            elif not re.match('[A-Za-z]+', state):
-                state = "Please enter your city"
-                return render_template('profile.html', state=state)
+            # elif not re.match('[a-z]', address):
+            #     address = "Please enter your address"
+            #     return render_template('profile.html', address=address)
 
-            elif not re.match('[0-9]', zipcode):
-                zipcode = "Please enter your zipcode"
-                return render_template('profile.html', zipcode=zipcode)
+            # elif not re.match('[A-Za-z]+', city):
+            #     city = "Please enter your city"
+            #     return render_template('profile.html', city=city)
 
-            else:
+            # elif not re.match('[A-Za-z]+', state):
+            #     state = "Please enter your city"
+            #     return render_template('profile.html', state=state)
 
-                cursor = mysql.connection.cursor()
-                cursor.execute("INSERT INTO user_profile (user_id, first_name, last_name, date_of_birth, mobile_number, gender, address, city, state, zipcode, profile_updated_dt) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, curdate())",
-                               (user_id, first_name, last_name, date_of_birth, mobile_number, gender, address, city, state, zipcode))
-                mysql.connection.commit()
-                flash('The profile is added !')
-                cursor.execute("SELECT * FROM user_profile")  # Execute the SQL
-                createprofile = cursor.fetchall()
-                return render_template('userhome.html',createprofile=createprofile,user_name=user_name, email=email)
+            # elif not re.match('[0-9]', zipcode):
+            #     zipcode = "Please enter your zipcode"
+            #     return render_template('profile.html', zipcode=zipcode)
 
-        return render_template('profile.html')
+            # else:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            dobcer = secure_filename(dobc.filename)
+            dobc.save(os.path.join(app.config['PDF_FOLDER'], dobcer))
+
+            cursor = mysql.connection.cursor()
+            cursor.execute("INSERT INTO user_profile (user_id, first_name, last_name, date_of_birth, dobc, mobile_number, gender, address, city, state, zipcode, image, profile_updated_dt) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, curdate())",
+                           (user_id, first_name, last_name, date_of_birth, dobcer, mobile_number, gender, address, city, state, zipcode, filename))
+            mysql.connection.commit()
+            flash('The profile is added !')
+            cursor.execute(
+                    'SELECT * FROM user_profile WHERE user_id= %s', [user_id])
+            data = cursor.fetchall()
+            cursor.close()
+            print(data[0])
+            return render_template('showprofile.html', row=data[0], user_name=user_name, email=email, filename=filename, dobcer=dobcer)
+
+        
+        else:
+            return render_template('profile.html')
 
     else:
         return render_template('user_login.html')
+
+
+@app.route('/display/<filename>')
+def display_image(filename):
+    return redirect(url_for('static', filename='profilepic/' + filename))
+
+@app.route('/dob/<dobcer>')
+def display_pdf(dobcer):
+    return redirect(url_for('static', filename='birthcertificate/' + dobcer))
+
 
 
 #==================================================SHOW_PROFILE==================================================#
@@ -505,18 +577,23 @@ def showprofile():
         user_id = session['id']
         user_name = session['user_name']
         email = session['email']
+
         cursor = mysql.connection.cursor()
 
-        if cursor.execute(
-                'SELECT * FROM user_profile WHERE user_id= %s', [user_id]) == 1:
+        if cursor.execute('SELECT * FROM user_profile WHERE user_id= %s', [user_id]) == 1:
+
             data = cursor.fetchall()
+            
             print(data[0])
+            cursor.execute('SELECT image FROM user_profile WHERE user_id= %s', [user_id])
+            img = cursor.fetchone()
+            filename=img.get('image')
             cursor.close()
-            return render_template('showprofile.html', row=data[0], user_name=user_name, email=email)
+            return render_template('showprofile.html', row=data[0], user_name=user_name, email=email,filename=filename)
 
         else:
             msg = " First of all you have to create profile so then after \n you can show or edit your profile !"
-            return render_template('userhome.html', msg=msg,user_name=user_name, email=email)
+            return render_template('userhome.html', msg=msg, user_name=user_name, email=email)
 
     else:
         return render_template('user_login.html')
@@ -527,6 +604,14 @@ def showprofile():
 
 @app.route('/editprofile')
 def editprofile():
+
+    UPLOAD_FOLDER = 'static/profilepic/'
+
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+    PDF_FOLDER = 'static/birthcertificate/'
+    app.config['PDF_FOLDER'] = PDF_FOLDER
+
     if 'userloggedin' in session:
         user_id = session['id']
         user_name = session['user_name']
@@ -542,11 +627,20 @@ def editprofile():
 
 
 @app.route('/profileupdate', methods=['GET', 'POST'])
+
 def profileupdate():
+
+    UPLOAD_FOLDER = 'static/profilepic/'
+    app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+    PDF_FOLDER = 'static/birthcertificate/'
+    app.config['PDF_FOLDER'] = PDF_FOLDER
+    
     user_id = session['id']
     user_name = session['user_name']
     email = session['email']
 
+   
     if 'userloggedin' in session:
         if request.method == "POST":
             user_id = request.args.get('user_id')
@@ -555,12 +649,20 @@ def profileupdate():
             first_name = profile['first_name']
             last_name = profile['last_name']
             date_of_birth = profile['date_of_birth']
+            dobc=request.files['dobc']
             mobile_number = profile['mobile_number']
             gender = profile['gender']
             address = profile['address']
             city = profile['city']
             state = profile['state']
             zipcode = profile['zipcode']
+            file = request.files['file']
+
+            UPLOAD_FOLDER = 'static/profilepic/'
+            app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+            PDF_FOLDER = 'static/birthcertificate/'
+            app.config['PDF_FOLDER'] = PDF_FOLDER
 
             cursor = mysql.connection.cursor()
             cursor.execute(
@@ -568,7 +670,8 @@ def profileupdate():
             data = cursor.fetchall()
             print(data[0])
 
-            if not first_name or not last_name or not date_of_birth or not mobile_number or not gender or not address or not city or not state or not zipcode:
+            
+            if not first_name or not last_name or not date_of_birth or not dobc or not mobile_number or not gender or not address or not city or not state or not zipcode or not file:
                 error = 'Please Fill the details'
                 return render_template('editprofile.html', error=error, row=data[0])
 
@@ -604,11 +707,18 @@ def profileupdate():
                 zipcode = "Please enter your zipcode"
                 return render_template('editprofile.html', zipcode=zipcode, row=data[0])
 
+        
             else:
+                filename = secure_filename(file.filename)
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+                dobcer = secure_filename(dobc.filename)
+                dobc.save(os.path.join(app.config['PDF_FOLDER'], dobcer))
+
                 cursor = mysql.connection.cursor()
                 flash('Your profile will successfully updated !')
-                cursor.execute('UPDATE user_profile SET first_name=%s, last_name=%s, date_of_birth=%s, mobile_number=%s, gender=%s, address=%s, city=%s, state=%s, zipcode=%s, profile_updated_dt=curdate() WHERE user_id=%s',
-                               (first_name, last_name, date_of_birth, mobile_number, gender, address, city, state, zipcode, user_id))
+                cursor.execute('UPDATE user_profile SET first_name=%s, last_name=%s, date_of_birth=%s, dobc=%s, mobile_number=%s, gender=%s, address=%s, city=%s, state=%s, zipcode=%s, image=%s, profile_updated_dt=curdate() WHERE user_id=%s',
+                               (first_name, last_name, date_of_birth, dobcer, mobile_number, gender, address, city, state, zipcode, filename, user_id))
                 cursor.connection.commit()
 
                 cursor.execute(
@@ -616,7 +726,7 @@ def profileupdate():
                 data = cursor.fetchall()
                 cursor.close()
                 print(data[0])
-                return render_template('showprofile.html', row=data[0], user_name=user_name, email=email)
+                return render_template('showprofile.html', row=data[0], user_name=user_name, email=email, filename=filename, dobcer=dobcer)
 
         return render_template('showprofile.html', user_id=user_id, user_name=user_name, email=email)
     else:
@@ -729,7 +839,7 @@ def editpassowrd():
             'SELECT user_name and password FROM users WHERE id= %s', [user_id])
         data = cursor.fetchall()
         print(data[0])
-        return render_template('resetpassword.html', row=data[0], user_name=user_name)
+        return render_template('resetpassword.html', row=data[0], user_name=user_name, email=email)
     else:
         return render_template('user_login.html')
 
@@ -738,10 +848,14 @@ def editpassowrd():
 def resetpassword():
     user_id = session['id']
     password = request.form['password']
+    # email=request.form['email']
 
     if 'userloggedin' in session:
         if request.method == "POST":
             user_id = session['id']
+            user_name = session['user_name']
+            # email = session['email']
+
             cursor = mysql.connection.cursor()
             cursor.execute(
                 'SELECT * FROM users WHERE id= %s', [user_id])
@@ -751,7 +865,20 @@ def resetpassword():
                            (password, user_id))
             list_users = cursor.fetchone()
             cursor.connection.commit()
-            return render_template('userhome.html', users=list_users)
+
+            email = session['email']
+
+            msg = Message(
+                'Hello ! This is your new password.',
+                sender='palakpadalia15@gmail.com',
+                recipients=[email]
+            )
+            msg.body = "New Password:-" + password + \
+                "\nNow you can login by this password. You can also login by this link \nhttp://127.0.0.1:5000/user_login"
+            # + user_name + '\n' "Password:-" + Password + '\n'
+            mail.send(msg)
+
+            return render_template('userhome.html', users=list_users, user_name=user_name)
         else:
             return redirect('/userhome')
     else:

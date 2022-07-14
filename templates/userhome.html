@@ -35,7 +35,7 @@
                 </button>
 
                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                    <h6><a href="{{url_for('userlogout')}}">Logout</a></h6>
+                    <h6><a href="{{url_for('userlogout')}}" onclick="reloadThePage()">Logout</a></h6>
                 </button>
             </div>
         </div>
@@ -74,6 +74,12 @@
     </div>
     </form>
     </div>
+
+    <script>
+        function reloadThePage() {
+            window.location.reload();
+        }
+    </script>
 </body>
 
 </html>

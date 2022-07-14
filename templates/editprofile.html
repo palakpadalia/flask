@@ -26,7 +26,7 @@
 
 <body>
     <div class="home">
-        <form action="/profileupdate" method="post" novalidate="novalidate">
+        <form action="/profileupdate" method="post" novalidate="novalidate" enctype="multipart/form-data">
             <br>
             <div class="container-fluid">
                 <div class="text-right">
@@ -36,7 +36,7 @@
                     </button>
 
                     <button type="button" class="btn btn-outline-secondary btn-sm">
-                        <h6><a href="{{url_for('userlogout')}}">Logout</a></h6>
+                        <h6><a href="{{url_for('userlogout')}}" onclick="reloadThePage()">Logout</a></h6>
                     </button>
                 </div>
             </div>
@@ -45,9 +45,12 @@
             <div class="container rounded bg-white mt-5 mb-5">
                 <div class="row">
                     <div class="col-md-3 border-right">
-                        <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img
-                                class="rounded-circle mt-5"
-                                src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                        <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                            <img
+                                src="/static/images/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                            <br>
+                            <span><b>Add Your Profile Picture</b></span>
+                            <input type="file" name="file" autocomplete="off" required>
                             <span class="font-weight-bold"><b>UserName : </b>{{user_name}}</span>
                             <br>
                             <span class="font-weight-bold"><b>Email : </b>{{email}}</span><span></span>
@@ -60,64 +63,67 @@
                             </div>
 
                             <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <div class="control-group"> {{first_name}}
+                                <div class="col-md-6 col-sm-12 col-lg-12">
+                                    <div class="control-group">
                                         <label class="labels">First Name</label>
 
-                                        <div class="controls">
+                                        <div class="controls col-lg-3 col-lg-12">
                                             <input type="text" id="first_name" name="first_name"
                                                 value="{{row.first_name}}" data-validation-regex-regex="[A-Za-z]+"
-                                                data-validation-regex-message="Add Your First Name" required="required">
-                                            <br />
-
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="control-group">
-                                                <label class="labels">Last Name</label>
-
-                                                <div class="controls">
-                                                    <input type="text" id="last_name" name="last_name"
-                                                        value="{{row.last_name}}"
-                                                        data-validation-regex-regex="[A-Za-z]+"
-                                                        data-validation-regex-message="Add Your Last Name"
-                                                        required="required">
-
-                                                    {{last_name}}
-                                                </div>
-                                            </div>
+                                                data-validation-regex-message="Add only Alphabets" required="required">
+                                            <div>{{first_name}}</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row mt-2">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-12 col-lg-12">
+                                    <div class="control-group">
+                                        <label class="labels">Last Name</label>
+
+                                        <div class="controls col-lg-3 col-lg-12">
+                                            <input type="text" id="last_name" name="last_name" value="{{row.last_name}}"
+                                                data-validation-regex-regex="[A-Za-z]+"
+                                                data-validation-regex-message="Add only Alphabets" required="required">
+                                            <div>{{last_name}}</div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row mt-2">
+                                <div class="col-md-6 col-sm-12 col-lg-12">
                                     <div class="control-group">
                                         <label class="labels">Date Of Birth</label>
 
-                                        <div class="controls">
+                                        <div class="controls col-lg-3 col-lg-12">
                                             <input type="date" id="date_of_birth" name="date_of_birth"
-                                                value="{{row.date_of_birth}}" required="required" max="2004-01-01"
-                                                data-validation-regex-message="Add Your Date Of Birth">
+                                                value="{{row.date_of_birth}}" required="required" max="2004-01-01">
+                                            <br>
+                                            <label class="labels"> Birth Certificate</label>
+                                            <br>
+                                            <input type="file" id="dobc" name="dobc" required="required">
+                                            <div>{{date_of_birth}}</div>
 
-                                            {{date_of_birth}}
+
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="row mt-2">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 col-sm-12 col-lg-12">
                                         <div class="control-group">
                                             <label class="labels">Mobile Number</label>
 
-                                            <div class="controls">
+                                            <div class="controls col-lg-3 col-lg-12">
                                                 <input type="text" id="mobile_number" name="mobile_number"
                                                     value="{{row.mobile_number}}"
-                                                    data-validation-regex-regex="[0-9]{10}" required="required"
-                                                    data-validation-regex-message="Add Your Mobile Number">
+                                                    data-validation-regex-regex="[789][0-9]{9}" required="required"
+                                                    data-validation-regex-message="Your Mobile Number Is Not Valid.">
+                                                <div>{{mobile_number}}</div>
 
-                                                {{mobile_number}}
                                             </div>
                                         </div>
                                     </div>
@@ -130,57 +136,58 @@
                     <div class="col-md-4">
                         <div class="p-3 py-5">
                             <div class="row mt-2">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-sm-12 col-lg-12">
                                     <div class="control-group">
                                         <label class="labels">Gender</label>
 
-                                        <div class="controls">
-                                            Male<input type="radio" id="gender" name="gender" value="Male">
-                                            Female<input type="radio" id="gender" name="gender" value="Female">
+                                        <div class="controls col-lg-3 col-lg-12">
+                                            Male<input class="m-2" type="radio" id="gender" name="gender" value="Male"
+                                                required>
+                                            Female<input class="m-2" type="radio" id="gender" name="gender"
+                                                value="Female" required>
+                                            <div>{{gender}}</div>
 
-                                            {{gender}}
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row mt-2">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-md-6 col-sm-12 col-lg-12">
                                     <div class="control-group">
                                         <label class="labels">Address</label>
 
-                                        <div class="controls">
+                                        <div class="controls col-lg-3 col-lg-12">
                                             <input type="text" id="address" name="address" value="{{row.address}}"
-                                                data-validation-regex-regex="[A-Za-z]+" required="required"
-                                                data-validation-regex-message="Add Your Address Here">
-                                            <br />
-                                            {{address}}
+                                                required="required">
+                                            <div> {{address}}</div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row mt-2">
-                                <div class="col-md-6">
+                                <div class="col-md-6 col-md-6 col-sm-12 col-lg-12">
                                     <div class="control-group">
                                         <label class="labels">City</label>
 
-                                        <div class="controls">
+                                        <div class="controls col-lg-3 col-lg-12">
                                             <input type="text" id="city" name="city" value="{{row.city}}"
                                                 data-validation-regex-regex="[A-Za-z]+" required="required"
-                                                data-validation-regex-message="Add Your City">
-                                            <br />
-                                            {{city}}
+                                                data-validation-regex-message="Add City in string">
+                                            <div>{{city}}</div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-md-6 col-sm-12 col-lg-12">
                                 <div class="control-group">
                                     <label for="state">State</label>
 
-                                    <div class="controls">
+                                    <div class="controls col-lg-3 col-lg-12">
                                         <select name="state">State
                                             <option value="Andhra Pradesh">Andhra Pradesh</option>
                                             <option value="Arunachal Pradesh">Arunachal Pradesh</option>
@@ -211,38 +218,26 @@
                                             <option value="Uttarakhand">Uttarakhand</option>
 
                                         </select>
+                                        <div>{{state}}</div>
 
-                                        {{state}}
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-6 col-md-6 col-sm-12 col-lg-12">
                                 <div class="control-group">
                                     <div class="control-group">
                                         <label for="zipcode">Zipcode</label>
 
-                                        <div class="controls">
+                                        <div class="controls  col-lg-3 col-lg-12">
                                             <input type="text" id="zipcode" name="zipcode" value="{{row.zipcode}}"
                                                 data-validation-regex-regex="[0-9]{4}" required="required"
-                                                data-validation-regex-message="Add Your Zipcode">
-                                            <br />
-                                            {{zipcode}}
+                                                data-validation-regex-message="Add only Numbers">
+                                            <div>{{zipcode}}</div>
+
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- <div class="col-md-6 col-lg-6">
-                                    <div class="control-group">
-                                        <label for="profile_updated_dt">Profile_Update_Date</label>
-                                        <div class="controls">
-                                            <input type="datetime" id="profile_updated_dt" name="profile_updated_dt"
-                                                value="{{row.profile_updated_dt}}" required="required">
-                                            <br />
-                                            {{profile_updated_dt}}
-                                        </div>
-                                    </div>
-                                </div> -->
                             </div>
                         </div>
                     </div>
@@ -261,6 +256,10 @@
     </div>
     <script>
         $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
+
+        function reloadThePage() {
+            window.location.reload();
+        }
     </script>
 </body>
 

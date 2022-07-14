@@ -23,7 +23,7 @@
 </head>
 
 <body>
-    <div class="form1">
+    <div class="form">
 
         <form action="{{ url_for('admin_insert') }}" method="post" novalidate="novalidate">
             <br>
@@ -33,19 +33,20 @@
                         <h6 class="text-center"><a href="{{url_for('showadmins')}}" class="a-1">⤶</a></h6>
                     </button>
                     <button type="button" class="btn btn-outline-secondary btn-sm">
-                        <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1">Logout</a></h6>
+                        <h6 class="text-center"><a href="{{url_for('logout')}}" onclick="reloadThePage()"
+                                class="a-1">Logout</a></h6>
                     </button>
                 </div>
             </div>
             <div class="h2">
                 <h2>Add Admin</h2>
             </div>
-            <div class="table">
+            <div class="tablemain">
                 <div class="control-group">
                     <label for="email" class="control-label">Email</label>
                     <br />
                     <div class="controls">
-                        <input type="email" id="email" name="email" required="required">
+                        <input type="email" id="email" name="email" required="required" placeholder="Email">
                         <br />
                     </div>
                 </div>
@@ -58,12 +59,12 @@
                         <input type="password" id="password" name="password"
                             data-validation-regex-regex="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
                             data-validation-regex-message="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                            required="required">
+                            placeholder="Password" required="required">
                         <br />
                     </div>
                 </div>
                 {{password}}
-               
+                <br>
                 <input type="submit" value="Insert"></br>
 
                 {% if error %}
@@ -74,6 +75,10 @@
     </div>
     <script>
         $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
+
+        function reloadThePage() {
+            window.location.reload(true);
+        }
     </script>
 </body>
 

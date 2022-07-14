@@ -32,17 +32,18 @@
                     <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-1">⤶</a></h6>
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                    <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1">Logout</a></h6>
+                    <h6 class="text-center"><a href="{{url_for('logout')}}" onclick="reloadThePage()"
+                            class="a-1">Logout</a></h6>
                 </button>
             </div>
-        </div>  
+        </div>
         <form action="/update/{{row.id}}" method="post" novalidate="novalidate">
 
             <div class="h2">
                 <h2>Edit User</h2>
             </div>
 
-            <div class="table">
+            <div class="tablemain">
 
                 <input type="hidden" name="id" id="id" value="{{row.id}}" required="required">
                 <br />
@@ -50,7 +51,7 @@
                     <label for="email" class="control-label">Email</label>
                     <br />
                     <div class="controls">
-                        <input type="email" id="email" name="email" value="{{row.email}}" required="required" disabled>
+                        <input type="email" id="email" name="email" value="{{row.email}}">
                         <br />
                         {{email}}
                     </div>
@@ -60,7 +61,7 @@
                     <label for="user_name">User_Name</label>
                     <br>
                     <div class="controls">
-                        <input type="text" id="user_name" name="user_name" data-validation-regex-regex="[A-Za-z]+"
+                        <input type="text" id="user_name" name="user_name" data-validation-regex-regex="[A-Za-z0-9]+"
                             value="{{row.user_name}}" required="required"
                             data-validation-regex-message="Add Your UserName" disabled>
                         <br>
@@ -74,7 +75,7 @@
                     <div class="controls">
                         <input type="password" id="password" name="password"
                             data-validation-regex-regex="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-                            data-validation-regex-message="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                            data-validation-regex-message="<p>Must contain at least one number and one uppercase and <br>lowercase letter, and at least 8 or more characters</p>"
                             required="required">
                         <br />
                         {{password}}
@@ -94,13 +95,18 @@
 
                 {% endif %}
                 {% endwith %}
-                
+
                 <input type="submit" value="edit">
             </div>
         </form>
     </div>
     <script>
         $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
+
+        function reloadThePage() {
+            window.location.reload();
+        }
+
     </script>
 </body>
 

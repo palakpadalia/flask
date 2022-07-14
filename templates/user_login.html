@@ -23,60 +23,60 @@
 
 <body>
     <div class="bg">
-        <form action="{{ url_for('user_login') }}" method="post" novalidate="novalidate">
-            <h2 class="text-center h2">User Log In</h2>
-            <div class="table">
-                <div class="container">
-                    <div class="row">
-                        <div class="col m-auto">
-                            <img src="/static/images/images__1_-removebg-preview.png">
-                        </div>
-                        <div class="col">
-                            <div class="control-group">
-                                <label for="user_name" class="control-label">Username</label>
-                                <br />
-                                <div class="controls">
-                                    <input type="text" id="user_name" name="user_name"
-                                        data-validation-regex-regex="[A-Za-z]+" required="required"
-                                        data-validation-regex-message="Add Your UserName">
-                                </div>
+        <div class="container">
+            <form action="{{ url_for('user_login') }}" method="post" novalidate="novalidate">
+                <h2 class="text-center h2">User Log In</h2>
+                <div class="table">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col m-auto">
+                                <img src="/static/images/images__1_-removebg-preview.png">
                             </div>
-                            {{user_name}}
-
-                            <div class="control-group form-group">
-                                <label for="password" class="control-label">Password</label>
-                                <br />
-                                <div class="controls">
-                                    <input type="password" id="password" name="password"
-                                        data-validation-regex-regex="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
-                                        data-validation-regex-message="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
-                                        required="required">
+                            <div class="col">
+                                <div class="control-group">
+                                    <label for="user_name" class="control-label">Username</label>
+                                    <br />
+                                    <div class="controls">
+                                        <input type="text" id="user_name" name="user_name"
+                                            data-validation-regex-regex="[a-zA-Z0-9]+" required="required"
+                                            data-validation-regex-message="Add Your UserName">
+                                    </div>
                                 </div>
-                            </div>
-                            {{password}}
+                                {{user_name}}
 
-                            <div>
-                                <input type="submit" value="Sign In">
-                                <br>
-                                {% if error %}
-                                <div class="error-msg">{{ error }}</div>
-                                {% endif %}
-                                {% with messages = get_flashed_messages() %}
-                                {% if messages %}
+                                <div class="control-group form-group">
+                                    <label for="password" class="control-label">Password</label>
+                                    <br />
+                                    <div class="controls">
+                                        <input type="password" id="password" name="password"
+                                            data-validation-regex-regex="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}"
+                                            data-validation-regex-message="<p>Must contain at least one number and one uppercase <br> and  lowercase letter, and at least 8 or more characters</p>"
+                                            required="required">
+                                    </div>
+                                </div>
+                                {{password}}
 
-                                {% for message in messages %}
-                                {{ message }}
-                                {% endfor %}
+                                <div>
+                                    <input type="submit" value="Sign In">
+                                    <br>
+                                    {% if error %}
+                                    <div class="error-msg">{{ error }}</div>
+                                    {% endif %}
+                                    {% with messages = get_flashed_messages() %}
+                                    {% if messages %}
 
-                                {% endif %}
-                                {% endwith %}
+                                    {% for message in messages %}
+                                    {{ message }}
+                                    {% endfor %}
+
+                                    {% endif %}
+                                    {% endwith %}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-        </form>
-
-    </div></br>
+            </form>
+        </div></br>
     </div>
 
 
