@@ -745,9 +745,16 @@ def edituserprofile(user_id):
         dobcer = cursor.fetchone()
         dobcer=dobcer.get('dobc')
        
+        cursor.execute('SELECT user_name FROM users WHERE id= %s', [user_id])
+        user_name=cursor.fetchone()
+        user_name=user_name.get('user_name')
+
+        cursor.execute('SELECT email FROM users WHERE id= %s', [user_id])
+        email=cursor.fetchone()
+        email=email.get('email')
 
 
-        return render_template('edituserprofile.html', row=data[0], filename=filename,dobcer=dobcer)
+        return render_template('edituserprofile.html', row=data[0], filename=filename,dobcer=dobcer,user_name=user_name,email=email)
 
     else:
         msg = "The profile is not created of this user"
@@ -772,14 +779,12 @@ def userprofileupdate(user_id=0):
         first_name = profile['first_name']
         last_name = profile['last_name']
         date_of_birth = profile['date_of_birth']
-        dobc=request.files['dobc']
         mobile_number = profile['mobile_number']
         gender = profile['gender']
         address = profile['address']
         city = profile['city']
         state = profile['state']
         zipcode = profile['zipcode']
-        file = request.files['file']
 
         UPLOAD_FOLDER = 'static/profilepic/'
         app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -794,7 +799,7 @@ def userprofileupdate(user_id=0):
         data = cursor.fetchall()
         print(data[0])
 
-        if not first_name or not last_name or not date_of_birth or not dobc or not mobile_number or not gender or not address or not city or not state or not zipcode or not file:
+        if not first_name or not last_name or not date_of_birth or not mobile_number or not gender or not address or not city or not state or not zipcode:
             error = 'Please Fill the details'
             return render_template('edituserprofile.html', error=error, row=data[0])
 
@@ -839,7 +844,17 @@ def userprofileupdate(user_id=0):
 
             cursor.execute("SELECT * FROM users")  # Execute the SQL
             list_users = cursor.fetchall()
-            return render_template('index.html', users=list_users)
+
+
+            cursor.execute('SELECT image FROM user_profile WHERE user_id= %s', [user_id])
+            img = cursor.fetchone()
+            filename=img.get('image')
+
+            cursor.execute('SELECT dobc FROM user_profile WHERE user_id= %s', [user_id])
+            dobcer = cursor.fetchone()
+            dobcer=dobcer.get('dobc')
+    
+            return render_template('index.html', users=list_users,filename=filename,dobcer=dobcer)
 
     return render_template('index.html')
 
