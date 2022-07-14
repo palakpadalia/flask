@@ -875,6 +875,7 @@ def resetpassword():
             user_id = session['id']
             user_name = session['user_name']
             # email = session['email']
+            # email = session['email']
 
             cursor = mysql.connection.cursor()
             cursor.execute(
