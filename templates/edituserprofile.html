@@ -31,10 +31,10 @@
             <div class="container-fluid">
                 <div class="text-right">
                     <button type="button" class="btn btn-outline-secondary btn-sm">
-                        <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-1">⤶</a></h6>
+                        <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-2">⤶</a></h6>
                     </button>
                     <button type="button" class="btn btn-outline-secondary btn-sm">
-                        <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-1"
+                        <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-2"
                                 onclick="reloadThePage()">Logout</a></h6>
                     </button>
                 </div>
@@ -167,7 +167,7 @@
                                         <input type="text" id="city" name="city" value="{{row.city}}"
                                             data-validation-regex-regex="[A-Za-z]+" required="required"
                                             data-validation-regex-message="Add Your City">
-                                        <div></div>
+                                        <div>{{city}}</div>
                                     </div>
 
                                     <label for="state">State</label>
@@ -202,7 +202,7 @@
                                             <option value="Uttarakhand">Uttarakhand</option>
 
                                         </select>
-                                        <div></div>
+                                        <div>{{state}}</div>
                                     </div>
 
 
@@ -211,7 +211,7 @@
                                         <input type="text" id="zipcode" name="zipcode" value="{{row.zipcode}}"
                                             data-validation-regex-regex="[0-9]{4}" required="required"
                                             data-validation-regex-message="Add Your Zipcode">
-                                        <div></div>
+                                        <div>{{zipcode}}</div>
 
                                     </div>
                                 </div>
@@ -227,7 +227,7 @@
     $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
 
     function reloadThePage() {
-        window.location.reload();
+        window.location.reload(true);
     }
 </script>
 </body>

@@ -29,11 +29,11 @@
         <div class="container-fluid">
             <div class="text-right">
                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                    <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-1">⤶</a></h6>
+                    <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-2">⤶</a></h6>
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-sm">
                     <h6 class="text-center"><a href="{{url_for('logout')}}" onclick="reloadThePage()"
-                            class="a-1">Logout</a></h6>
+                            class="a-2">Logout</a></h6>
                 </button>
             </div>
         </div>
@@ -95,7 +95,7 @@
 
                 {% endif %}
                 {% endwith %}
-
+                <br>
                 <input type="submit" value="edit">
             </div>
         </form>

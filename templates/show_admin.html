@@ -25,23 +25,25 @@
         <div class="container-fluid">
             <div class="text-right">
                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                    <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-1">⤶</a></h6>
+                    <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-2">⤶</a></h6>
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-sm">
                     <h6 class="text-center"><a href="{{url_for('logout')}}" onclick="reloadThePage()"
-                            class="a-1">Logout</a></h6>
+                            class="a-2">Logout</a></h6>
                 </button>
             </div>
         </div>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
+        <div class="text-center">
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
 
-        {% for message in messages %}
-        {{ message }}
-        {% endfor %}
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
 
-        {% endif %}
-        {% endwith %}
+            {% endif %}
+            {% endwith %}
+        </div>
         <div class="h2">
             <h2>Admins</h2>
         </div>
@@ -67,12 +69,12 @@
 
                                 <td>{{row.email}}</td>
                                 <td>{{row.password}}</td>
-                                <td><a href="/editadmin/{{row.id}}" class="a-1">Edit</a></td>
-                                <td><a href="/admindelete/{{row.id}}" class="a-1">Delete</a></td>
+                                <td><a href="/editadmin/{{row.id}}" class="a-2">Edit</a></td>
+                                <td><a href="/admindelete/{{row.id}}" class="a-2">Delete</a></td>
                             </tr>
                             {% endfor %}
                             <tr>
-                                <td colspan="5"> <a href="{{ url_for('admin_insert') }}" class="a-1">Add admin from
+                                <td colspan="5"> <a href="{{ url_for('admin_insert') }}" class="a-2">Add admin from
                                         here..</a>
                                 </td>
                             </tr>

@@ -43,10 +43,10 @@
 
 
             <div class="container rounded bg-white mt-5 mb-5">
-                <div>
+                <div class="text-center">
                     
                     {% if error %}
-                    <div class="error-msg">{{ error }}</div>
+                    <div class="error-msg ">{{ error }}</div>
                     {% endif %}
                     {% with messages = get_flashed_messages() %}
                     {% if messages %}

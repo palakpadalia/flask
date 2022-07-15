@@ -21,49 +21,39 @@
     <div class="bg">
 
         <div class="h2-home">
-           
-                <h2>Are You Admin or Client ?</h2>
-           
+
+            <h2>Are You Admin or Client ?</h2>
+
             <form action="{{ url_for('home') }}" method="post">
 
-               
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <img src="/static/images/images-removebg-preview.png">
-                            </div>
 
-                            <div class="col-lg-6">
-                                <img src="/static/images/download__2_-removebg-preview.png">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 mt-5">
+                            <a href="/login"> <img src="/static/images/images-removebg-preview.png"></a>
+                            
+                            <div>
+                                <a href="/login" class="a-1">ADMIN LOGIN !</a>
                             </div>
                         </div>
-<br>
-                       <div class="row"></div>
-                            <div class="row">
 
-                                <div class="col-lg-6">
-                                    <h5> <a href="/login" class="a-1">ADMIN LOGIN !</a></h5>
-                                </div>
+                        <div class="col-lg-6 mt-5">
+                            <a href="/user_login">
+                                <img src="/static/images/download__2_-removebg-preview.png"></a>
 
-                                <div class="h5-1 col-lg-6">
-                                    <h5> <a href="/user_login" class="a-1">USER LOGIN !</a></h5>
-                                </div>
-
+                            <div>
+                                <a href="/user_login" class="a-1">USER LOGIN !</a>
                             </div>
                         </div>
                     </div>
+                    <br>
+
                 </div>
         </div>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
+    </div>
+    </div>
 
-        {% for message in messages %}
-        {{ message }}
-        {% endfor %}
-
-        {% endif %}
-        {% endwith %}
-        </form>
+    </form>
     </div>
 
 </body>

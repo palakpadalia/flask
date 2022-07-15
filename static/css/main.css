@@ -305,7 +305,16 @@ button {
 
 .a-1 {
     color: black;
+    font-size: large;
+    font-weight: bolder;
+    height: 50px;
+    width: 50px;
+   
+}
 
+
+.a-2 {
+    color: black;
     height: 50px;
     width: 50px;
 }
@@ -340,10 +349,10 @@ button {
     color: black;
 }
 
-img {
+.img {
     height: 180px;
     width: 180px;
-    margin-top: 20px;
+    margin-top: 50px;
 }
 
 p {
