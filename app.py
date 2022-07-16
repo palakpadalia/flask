@@ -31,7 +31,7 @@ app.config['MAIL_PASSWORD'] = 'knymskrsuqdnnsqp'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
 ALLOWED_EXTENSIONS = set(['png', 'jpg'])
 
 

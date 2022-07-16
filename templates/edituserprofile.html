@@ -65,12 +65,14 @@
 
                                         <div class="controls">
                                             <button type="button" class="btn btn-outline-secondary btn-sm">
-                                                <a href="{{ url_for('display_pdf', dobcer=dobcer) }}">Open Birth
+                                                <a href="{{ url_for('display_pdf', dobcer=dobcer) }}" download>download Birth
                                                     Certificate</a>
+                                                    <a href="{{ url_for('display_pdf', dobcer=dobcer) }}" >Open Birth
+                                                        Certificate</a>
                                             </button>
                                         </div>
 
-                                    </div>
+                                    </div>      
                                 </div>
                                 <div class="col-md-5 border-right">
 
@@ -226,9 +228,9 @@
 <script>
     $(function () { $("input,select,textarea").not("[type=submit]").jqBootstrapValidation(); });
 
-    function reloadThePage() {
-        window.location.reload(true);
-    }
+    // function reloadThePage() {
+    //     window.location.reload(true);
+    // }
 </script>
 </body>
 
