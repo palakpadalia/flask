@@ -18,7 +18,30 @@
         background-size: cover;
         min-height: 900px;
         width: fit-content;
-        font-size: 40px;
+        font-size: 80px;
+    }
+
+    .form4 {
+        background-image: url('/static/images/annie-spratt-zA7I5BtFbvw-unsplash.jpg');
+        background-repeat: no-repeat;
+        background-size: cover;
+        min-height: 900px;
+        width: fit-content;
+    }
+
+
+    .a-3 {
+        color: black;
+        height: 50px;
+        width: 50px;
+        font-size: 80px;
+    }
+
+    .a-4 {
+        color: black;
+        height: 50px;
+        width: 50px;
+        font-size: 20px;
     }
 
 
@@ -37,6 +60,7 @@
 
     .h2 {
         text-align: center;
+        font-size: 120px;
     }
 
     .bg {
@@ -68,7 +92,11 @@
         width: fit-content;
     }
 
-
+    .a-3 {
+        color: black;
+        height: 50px;
+        width: 50px;
+    }
 
     .h2 {
         text-align: center;
@@ -105,6 +133,13 @@
         height: 800px;
         background-repeat: no-repeat;
     }
+
+    .a-3 {
+        color: black;
+        height: 50px;
+        width: 50px;
+    }
+
 
     .form2 {
         background-image: url('/static/images/bench-accounting-nvzvOPQW0gc-unsplash.jpg');
@@ -196,6 +231,13 @@ select {
     font-size: .9em;
     width: 242px;
     margin-top: 10px;
+}
+
+
+.a-3 {
+    color: black;
+    height: 50px;
+    width: 50px;
 }
 
 
@@ -309,7 +351,7 @@ button {
     font-weight: bolder;
     height: 50px;
     width: 50px;
-   
+
 }
 
 
@@ -331,9 +373,15 @@ button {
     background-repeat: no-repeat;
     background-size: cover;
     min-height: 900px;
-
-
 }
+
+.form4 {
+    background-image: url('/static/images/annie-spratt-zA7I5BtFbvw-unsplash.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    min-height: 900px;
+}
+
 
 .button {
     align-self: flex-end;
@@ -378,11 +426,3 @@ img {
     width: 165px;
     border-radius: 50%;
 }
-
-/* .footer{
-    background: #bdc3c7;
-    background: #999FA2;
-    background: -webkit-linear-gradient(top left, #999FA2, #FFFFFF);
-    background: -moz-linear-gradient(top left, #999FA2, #FFFFFF);
-    background: linear-gradient(to bottom right, #999FA2, #FFFFFF);
-} */

@@ -25,11 +25,11 @@
         <div class="container-fluid">
             <div class="text-right">
                 <button type="button" class="btn btn-outline-secondary btn-sm">
-                    <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-2">⤶</a></h6>
+                    <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-3">⤶</a></h6>
                 </button>
                 <button type="button" class="btn btn-outline-secondary btn-sm">
                     <h6 class="text-center"><a href="{{url_for('logout')}}" onclick="reloadThePage()"
-                            class="a-2">Logout</a></h6>
+                            class="a-3">Logout</a></h6>
                 </button>
             </div>
         </div>
@@ -84,14 +84,15 @@
             </table>
 
         </div>
+    </div>
 
-        </h4>
+    </h4>
 
-        <script>
-            function reloadThePage() {
-                window.location.reload(true);
-            }
-        </script>
+    <script>
+        function reloadThePage() {
+            window.location.reload(true);
+        }
+    </script>
 </body>
 
 </html>

@@ -32,11 +32,12 @@ app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
 app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
+
 ALLOWED_EXTENSIONS = set(['png', 'jpg'])
 
 
 def allowed_file(filename):
-	return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
 app.permanent_session_lifetime = timedelta(minutes=1000)
@@ -218,7 +219,7 @@ def logout():
 @app.route('/showusers', methods=['GET', 'POST'])
 def showusers():
     if 'loggedin' in session:
-        
+
         cursor = mysql.connection.cursor()
         cursor.execute("SELECT * FROM users")  # Execute the SQL
         list_users = cursor.fetchall()
@@ -485,7 +486,7 @@ def createprofile():
             first_name = profile['first_name']
             last_name = profile['last_name']
             date_of_birth = profile['date_of_birth']
-            dobc=request.files['dobc']
+            dobc = request.files['dobc']
             mobile_number = profile['mobile_number']
             gender = profile['gender']
             address = profile['address']
@@ -499,8 +500,6 @@ def createprofile():
 
             PDF_FOLDER = 'static/birthcertificate/'
             app.config['PDF_FOLDER'] = PDF_FOLDER
-
-           
 
             if allowed_file(file.filename):
 
@@ -516,16 +515,16 @@ def createprofile():
                 mysql.connection.commit()
                 flash('The profile is added !')
                 cursor.execute(
-                        'SELECT * FROM user_profile WHERE user_id= %s', [user_id])
+                    'SELECT * FROM user_profile WHERE user_id= %s', [user_id])
                 data = cursor.fetchall()
-              
+
                 print(data[0])
                 return render_template('showprofile.html', row=data[0], user_name=user_name, email=email, filename=filename, dobcer=dobcer)
-            
+
             else:
                 flash('Allowed image types are -> png, jpg')
-                return render_template('profile.html',user_name=user_name, email=email)
-                
+                return render_template('profile.html', user_name=user_name, email=email)
+
         else:
             return render_template('profile.html', user_name=user_name, email=email,)
 
@@ -537,10 +536,10 @@ def createprofile():
 def display_image(filename):
     return redirect(url_for('static', filename='profilepic/' + filename))
 
+
 @app.route('/dob/<dobcer>')
 def display_pdf(dobcer):
     return redirect(url_for('static', filename='birthcertificate/' + dobcer))
-
 
 
 #==================================================SHOW_PROFILE==================================================#
@@ -559,19 +558,21 @@ def showprofile():
         if cursor.execute('SELECT * FROM user_profile WHERE user_id= %s', [user_id]) == 1:
 
             data = cursor.fetchall()
-            
+
             print(data[0])
 
-            cursor.execute('SELECT image FROM user_profile WHERE user_id= %s', [user_id])
+            cursor.execute(
+                'SELECT image FROM user_profile WHERE user_id= %s', [user_id])
             img = cursor.fetchone()
-            filename=img.get('image')
+            filename = img.get('image')
 
-            cursor.execute('SELECT dobc FROM user_profile WHERE user_id= %s', [user_id])
+            cursor.execute(
+                'SELECT dobc FROM user_profile WHERE user_id= %s', [user_id])
             dobcer = cursor.fetchone()
-            dobcer=dobcer.get('dobc')
+            dobcer = dobcer.get('dobc')
 
             cursor.close()
-            return render_template('showprofile.html', row=data[0], user_name=user_name, email=email,filename=filename,dobcer=dobcer)
+            return render_template('showprofile.html', row=data[0], user_name=user_name, email=email, filename=filename, dobcer=dobcer)
 
         else:
             msg = " First of all you have to create profile so then after \n you can show or edit your profile !"
@@ -609,7 +610,6 @@ def editprofile():
 
 
 @app.route('/profileupdate', methods=['GET', 'POST'])
-
 def profileupdate():
 
     UPLOAD_FOLDER = 'static/profilepic/'
@@ -617,12 +617,11 @@ def profileupdate():
 
     PDF_FOLDER = 'static/birthcertificate/'
     app.config['PDF_FOLDER'] = PDF_FOLDER
-    
+
     user_id = session['id']
     user_name = session['user_name']
     email = session['email']
 
-   
     if 'userloggedin' in session:
         if request.method == "POST":
             user_id = request.args.get('user_id')
@@ -631,7 +630,7 @@ def profileupdate():
             first_name = profile['first_name']
             last_name = profile['last_name']
             date_of_birth = profile['date_of_birth']
-            dobc=request.files['dobc']
+            dobc = request.files['dobc']
             mobile_number = profile['mobile_number']
             gender = profile['gender']
             address = profile['address']
@@ -640,7 +639,6 @@ def profileupdate():
             zipcode = profile['zipcode']
             file = request.files['file']
 
-    
             PDF_FOLDER = 'static/birthcertificate/'
             app.config['PDF_FOLDER'] = PDF_FOLDER
 
@@ -650,7 +648,6 @@ def profileupdate():
             data = cursor.fetchall()
             print(data[0])
 
-            
             if not first_name or not last_name or not date_of_birth or not dobc or not mobile_number or not gender or not address or not city or not state or not zipcode or not file:
                 error = 'Please Fill the details'
                 return render_template('editprofile.html', error=error, row=data[0])
@@ -687,12 +684,12 @@ def profileupdate():
                 zipcode = "Please enter your zipcode"
                 return render_template('editprofile.html', zipcode=zipcode, row=data[0])
 
-        
             else:
                 if allowed_file(file.filename):
 
                     filename = secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    file.save(os.path.join(
+                        app.config['UPLOAD_FOLDER'], filename))
 
                     dobcer = secure_filename(dobc.filename)
                     dobc.save(os.path.join(app.config['PDF_FOLDER'], dobcer))
@@ -711,11 +708,14 @@ def profileupdate():
                     return render_template('showprofile.html', row=data[0], user_name=user_name, email=email, filename=filename, dobcer=dobcer)
 
                 else:
+                    # cursor.execute(
+                    #     'SELECT * FROM user_profile WHERE user_id= %s', [user_id])
+                    # data = cursor.fetchall()
+                    # print(data[0])
                     flash('Allowed image types are -> png, jpg')
-                    return render_template('editprofile.html',user_name=user_name, email=email)
+                    return render_template('editprofile.html', user_name=user_name, email=email)
 
-
-        return render_template('showprofile.html', user_id=user_id, user_name=user_name, email=email)
+        return render_template('showprofile.html', user_id=user_id,  user_name=user_name, email=email)
     else:
         return render_template('user_login.html')
 
@@ -737,24 +737,25 @@ def edituserprofile(user_id):
         data = cursor.fetchall()
         print(data[0])
 
-        cursor.execute('SELECT image FROM user_profile WHERE user_id= %s', [user_id])
+        cursor.execute(
+            'SELECT image FROM user_profile WHERE user_id= %s', [user_id])
         img = cursor.fetchone()
-        filename=img.get('image')
+        filename = img.get('image')
 
-        cursor.execute('SELECT dobc FROM user_profile WHERE user_id= %s', [user_id])
+        cursor.execute(
+            'SELECT dobc FROM user_profile WHERE user_id= %s', [user_id])
         dobcer = cursor.fetchone()
-        dobcer=dobcer.get('dobc')
-       
+        dobcer = dobcer.get('dobc')
+
         cursor.execute('SELECT user_name FROM users WHERE id= %s', [user_id])
-        user_name=cursor.fetchone()
-        user_name=user_name.get('user_name')
+        user_name = cursor.fetchone()
+        user_name = user_name.get('user_name')
 
         cursor.execute('SELECT email FROM users WHERE id= %s', [user_id])
-        email=cursor.fetchone()
-        email=email.get('email')
+        email = cursor.fetchone()
+        email = email.get('email')
 
-
-        return render_template('edituserprofile.html', row=data[0], filename=filename,dobcer=dobcer,user_name=user_name,email=email)
+        return render_template('edituserprofile.html', row=data[0], filename=filename, dobcer=dobcer, user_name=user_name, email=email)
 
     else:
         msg = "The profile is not created of this user"
@@ -771,7 +772,6 @@ def userprofileupdate(user_id=0):
 
     PDF_FOLDER = 'static/birthcertificate/'
     app.config['PDF_FOLDER'] = PDF_FOLDER
-
 
     if request.method == "POST":
         user_id = session['id']
@@ -791,7 +791,6 @@ def userprofileupdate(user_id=0):
 
         PDF_FOLDER = 'static/birthcertificate/'
         app.config['PDF_FOLDER'] = PDF_FOLDER
-
 
         cursor = mysql.connection.cursor()
         cursor.execute(
@@ -845,16 +844,17 @@ def userprofileupdate(user_id=0):
             cursor.execute("SELECT * FROM users")  # Execute the SQL
             list_users = cursor.fetchall()
 
-
-            cursor.execute('SELECT image FROM user_profile WHERE user_id= %s', [user_id])
+            cursor.execute(
+                'SELECT image FROM user_profile WHERE user_id= %s', [user_id])
             img = cursor.fetchone()
-            filename=img.get('image')
+            filename = img.get('image')
 
-            cursor.execute('SELECT dobc FROM user_profile WHERE user_id= %s', [user_id])
+            cursor.execute(
+                'SELECT dobc FROM user_profile WHERE user_id= %s', [user_id])
             dobcer = cursor.fetchone()
-            dobcer=dobcer.get('dobc')
-    
-            return render_template('index.html', users=list_users,filename=filename,dobcer=dobcer)
+            dobcer = dobcer.get('dobc')
+
+            return render_template('index.html', users=list_users, filename=filename, dobcer=dobcer)
 
     return render_template('index.html')
 

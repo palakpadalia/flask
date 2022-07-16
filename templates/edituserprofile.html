@@ -25,22 +25,22 @@
 </head>
 
 <body>
-    <div class="form3 pb-5">
+    <div class="form4 pb-5">
         <form action="/userprofileupdate/{{row.user_id}}" method="post" novalidate="novalidate">
             <br>
             <div class="container-fluid">
                 <div class="text-right">
                     <button type="button" class="btn btn-outline-secondary btn-sm">
-                        <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-2">⤶</a></h6>
+                        <h6 class="text-center"><a href="{{url_for('showusers')}}" class="a-4">⤶</a></h6>
                     </button>
-                    <button type="button" class="btn btn-outline-secondary btn-sm">
-                        <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-2"
+                    <!-- <button type="button" class="btn btn-outline-secondary btn-sm">
+                        <h6 class="text-center"><a href="{{url_for('logout')}}" class="a-3"
                                 onclick="reloadThePage()">Logout</a></h6>
-                    </button>
+                    </button> -->
                 </div>
             </div>
-            <div class="h2 mb-5">
-                <h2>Edit User</h2>
+            <div class="mb-5">
+                <h2 class="text-center">Edit User</h2>
             </div>
 
 
@@ -67,6 +67,7 @@
                                             <button type="button" class="btn btn-outline-secondary btn-sm">
                                                 <a href="{{ url_for('display_pdf', dobcer=dobcer) }}" download>download Birth
                                                     Certificate</a>
+                                                    <br>
                                                     <a href="{{ url_for('display_pdf', dobcer=dobcer) }}" >Open Birth
                                                         Certificate</a>
                                             </button>
@@ -211,7 +212,7 @@
                                     <label for="zipcode">Zipcode</label>
                                     <div class="controls">
                                         <input type="text" id="zipcode" name="zipcode" value="{{row.zipcode}}"
-                                            data-validation-regex-regex="[0-9]{4}" required="required"
+                                            data-validation-regex-regex="[0-9]{6}" required="required"
                                             data-validation-regex-message="Add Your Zipcode">
                                         <div>{{zipcode}}</div>
 
