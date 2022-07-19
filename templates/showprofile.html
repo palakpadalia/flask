@@ -94,7 +94,7 @@
                                             class="form-control" value="{{row.mobile_number}}" disabled></div>
 
                                     <div class="col-md-12"><label class="labels">Gender</label><input type="text"
-                                            class="form-control" value="{{row.gender}}" disabled></div>
+                                            class="form-control" value="{{row.gender}}" name="gender" disabled></div>
                                 </div>
 
 
@@ -126,7 +126,7 @@
                         <div class="col-lg-12 text-center">
                             <div class="mb-2 text-center text-light">
                                 <button class="btn btn btn-outline-dark profile-button" type="button"> <a
-                                        href="/editprofile">Edit Profile</a>
+                                        href="/editprofile" onclick="displayRadioValue()">Edit Profile</a>
                                 </button>
                             </div>
                         </div>
@@ -141,6 +141,19 @@
         function reloadThePage() {
             window.location.reload(true);
         }
+
+
+        function displayRadioValue() {
+            var ele = document.getElementsByName('gender');
+              
+            for(i = 0; i < ele.length; i++) {
+                if(ele[i].checked)
+                document.getElementById("result").innerHTML
+                        = "Gender: "+ele[i].value;
+            }
+        }
+
+        
     </script>
 </body>
 

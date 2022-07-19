@@ -64,3 +64,4 @@ $(document).ready(function () {
         pagingType: 'full_numbers',
     });
 });
+
