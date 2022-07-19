@@ -44,7 +44,7 @@
 
             <div class="container rounded bg-white mt-5 mb-5">
                 <div class="text-center">
-                    
+
                     {% if error %}
                     <div class="error-msg ">{{ error }}</div>
                     {% endif %}
@@ -57,7 +57,7 @@
 
                     {% endif %}
                     {% endwith %}
-                </div>  
+                </div>
                 <div class="row">
                     <div class="col-md-3 border-right">
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
@@ -156,10 +156,12 @@
                                         <label class="labels">Gender</label>
 
                                         <div class="controls col-lg-3 col-lg-12">
-                                            Male<input class="m-2" type="radio" id="gender" name="gender" value="Male"
+                                            Male<input class="m-2" type="radio" id="male" name="gender" value="Male"
                                                 required>
-                                            Female<input class="m-2" type="radio" id="gender" name="gender"
+                                            Female<input class="m-2" type="radio" id="female" name="gender"
                                                 value="Female" required>
+                                           
+
                                             <div>{{gender}}</div>
 
                                         </div>
@@ -261,7 +263,7 @@
                 <div class="row ml-auto mr-auto">
                     <div class="col-lg-12 text-center">
                         <div class="a1">
-                            <input type="submit" value="Update">
+                            <input type="submit" value="Update" onclick="displayRadioValue()">
                         </div>
                     </div>
                 </div>
@@ -275,6 +277,28 @@
         function reloadThePage() {
             window.location.reload();
         }
+
+        // var male = document.getElementById("male");
+        // var female = document.getElementById("female");
+        // var checked = document.getElementById("sel").innerHTML;
+
+        // if (checked=male) {
+        //     male.click()
+        // }
+
+        // else if (checked=female) {
+        //     female.click()
+        // }
+
+        // else { }
+
+
+        value = "{{row.gender}}"
+        const selectedValue = value;
+        const input = document.querySelector(`input[name="gender"][value="${selectedValue}"`);
+        if (input) input.checked = true;
+
+
     </script>
 </body>
 

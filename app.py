@@ -33,7 +33,7 @@ app.config['MAIL_USE_SSL'] = False
 
 app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'gif', 'pdf'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'gif', 'pdf', 'jpeg'])
 
 
 def allowed_file(filename):
@@ -259,24 +259,38 @@ def insert():
                 return render_template('insert.html', password=password)
 
             else:
-                cursor = mysql.connection.cursor()
-                cursor.execute(
-                    "INSERT INTO users(email, user_name, password) VALUES (%s, %s, md5(%s))", (email, user_name, password))
-                mysql.connection.commit()
-                msg = Message(
-                    'Hello ! ' + user_name +
-                    'This is your username and password. You can login by this username and password.',
-                    sender='palakpadalia15@gmail.com',
-                    recipients=[email]
-                )
-                msg.body = "UserName:-" + user_name + '\n' "Password:-" + password
-                # + user_name + '\n' "Password:-" + Password + '\n'
-                mail.send(msg)
-                cursor.execute("SELECT * FROM users")  # Execute the SQL
-                list_users = cursor.fetchall()
-                flash('Inserted Successfully ..')
 
-                return render_template('index.html', users=list_users)
+                cursor = mysql.connection.cursor()
+                if cursor.execute("SELECT email FROM users where email=%s", [email]):
+                  
+                    cursor.execute("SELECT * FROM users")
+                    list_users = cursor.fetchall()
+                
+                elif cursor.execute("SELECT user_name FROM users where user_name=%s", [user_name]):
+                    cursor.execute("SELECT * FROM users")
+                    list_users = cursor.fetchall()
+
+                    flash('This email or UserName is already existed !')
+                    return render_template('index.html', users=list_users)
+
+                   
+
+                else:
+                    cursor.execute(
+                        "INSERT INTO users(email, user_name, password) VALUES (%s, %s, md5(%s))", (email, user_name, password))
+                    mysql.connection.commit()
+                    msg = Message(
+                        'Hello ! ' + user_name +
+                        'This is your username and password. You can login by this username and password.',
+                        sender='palakpadalia15@gmail.com',
+                        recipients=[email])
+                    msg.body = "UserName:-" + user_name + '\n' "Password:-" + password
+                    mail.send(msg)
+                    cursor.execute("SELECT * FROM users")
+                    list_users = cursor.fetchall()
+                    flash('Inserted Successfully ..')
+
+            return render_template('index.html', users=list_users)
 
     else:
         return redirect('/login')
@@ -316,18 +330,6 @@ def delete(user_id):
 
         print(data[0])
 
-        # email = request.form['email']
-
-        # msg = Message(
-        #     'Hello ! You account is no longer available on our site !',
-        #     sender='palakpadalia15@gmail.com',
-        #     recipients=[email]
-        # )
-
-        # msg.body = "Thank You."
-        # # + user_name + '\n' "Password:-" + Password + '\n'
-        # mail.send(msg)
-
         cursor = mysql.connection.cursor()
         cursor.execute("DELETE FROM users WHERE id=%s", (user_id,))
         mysql.connection.commit()
@@ -360,6 +362,7 @@ def update(id):
 
     if 'loggedin' in session:
 
+        user_name = request.form['user_name']
         password = request.form['password']
         cursor = mysql.connection.cursor()
         cursor.execute('SELECT * FROM users WHERE id= %s', [id, ])
@@ -376,9 +379,15 @@ def update(id):
 
         else:
             cursor = mysql.connection.cursor()
+            if cursor.execute("SELECT user_name FROM users where user_name=%s", [user_name]):
+                flash('This UserName id is already existed !')
+                cursor.execute("SELECT * FROM users")
+                list_users = cursor.fetchall()
 
-            cursor.execute('UPDATE users SET password=md5(%s) WHERE id = %s',
-                           (password, id))
+                return render_template('index.html', users=list_users)
+
+            cursor.execute('UPDATE users SET user_name=%s , password=md5(%s) WHERE id = %s',
+                           (user_name, password, id))
             cursor.connection.commit()
 
             email = request.form['email']
@@ -688,7 +697,8 @@ def profileupdate():
                 if allowed_file(file.filename):
 
                     filename = secure_filename(file.filename)
-                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+                    file.save(os.path.join(
+                        app.config['UPLOAD_FOLDER'], filename))
 
                 if allowed_file(dobc.filename):
                     dobcer = secure_filename(dobc.filename)
