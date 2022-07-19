@@ -20,7 +20,7 @@ app.secret_key = 'myapp'
 
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'sanskar1906'
+app.config['MYSQL_PASSWORD'] = 'sanskar'
 app.config['MYSQL_DB'] = 'flask'
 app.config['MYSQL_CURSORCLASS'] = 'DictCursor'
 
@@ -31,9 +31,9 @@ app.config['MAIL_PASSWORD'] = 'knymskrsuqdnnsqp'
 app.config['MAIL_USE_TLS'] = True
 app.config['MAIL_USE_SSL'] = False
 
-app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024
+app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'gif', 'pdf'])
 
 
 def allowed_file(filename):
@@ -688,9 +688,9 @@ def profileupdate():
                 if allowed_file(file.filename):
 
                     filename = secure_filename(file.filename)
-                    file.save(os.path.join(
-                        app.config['UPLOAD_FOLDER'], filename))
+                    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
+                if allowed_file(dobc.filename):
                     dobcer = secure_filename(dobc.filename)
                     dobc.save(os.path.join(app.config['PDF_FOLDER'], dobcer))
 
